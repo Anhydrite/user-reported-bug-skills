@@ -1,6 +1,6 @@
 ---
 name: user-reported-bug
-description: Enforce RED-TEST-FIRST when the user reports a bug. Auto-loads on phrases like "j'ai un bug", "ça ne marche pas", "I have a bug", "c'est cassé", "ça plante", "ça échoue", "this is broken", "ça foire", "ça bug", "broken", "ça merde", or any user statement that an action the system should do, doesn't do (or does wrong). Forces a strict workflow: (1) reproduce the bug, (2) write a RED test that captures the symptom, (3) tag it USER_FOUND, (4) add it to docs/testing/user-found-bugs.md, (5) ONLY THEN propose a fix. Reference case: the 2026-06-06 QEMU bug which had existed undetected because the salve didn't include QEMU personas.
+description: Enforce RED-TEST-FIRST when the user reports a bug. Auto-loads on phrases like "j'ai un bug", "ça ne marche pas", "I have a bug", "c'est cassé", "ça plante", "ça échoue", "this is broken", "ça foire", "ça bug", "broken", "ça merde", or any user statement that an action the system should do, doesn't do (or does wrong). Forces a strict workflow: (1) reproduce the bug, (2) write a RED test that captures the symptom, (3) tag it USER_FOUND, (4) add it to docs/testing/user-found-bugs.md, (5) ONLY THEN propose a fix. Reference case: the 2026-06-06 QEMU bug which had existed undetected because the test suite didn't include QEMU personas.
 ---
 
 # User-Reported Bug Workflow (RED-TEST-FIRST)
@@ -11,10 +11,10 @@ When the user reports a bug, follow this exact sequence. **Do not skip steps, do
 
 On 2026-06-06 the user reported "I can't make QEMU VMs". Investigation showed:
 
-- A test suite existed with 24 personas and a salve of 4
-- The salve was passing
+- A test suite existed with 24 personas and a subset of 4
+- The subset was passing
 - The QEMU bug had been latent for some time
-- The salve never executed a QEMU boot end-to-end
+- The suite never executed a QEMU boot end-to-end
 - The user was, in effect, a 25th persona with unique visibility
 
 **The lesson:** automated tests cannot replace human-in-the-loop bug reports. When a user reports a bug, treat it as a critical signal. Convert it to a permanent guard test BEFORE fixing.
@@ -25,7 +25,7 @@ These principles are derived from the QEMU case and are non-negotiable:
 
 1. **Test = proof of existence, not coverage.** A passing test is evidence that ONE path didn't fail. Always check the coverage matrix.
 2. **Symptom > path.** Test the symptom (e.g., "VM should reach state=running"), not the path (e.g., "TAP creation works"). One symptom test catches many path bugs.
-3. **Persona = vector of risk.** Each persona covers a risk class. Stratify the salve to guarantee coverage.
+3. **Persona = vector of risk.** Each persona covers a risk class. Stratify the suite to guarantee coverage.
 4. **Async bug = its own class.** For async actions, the test must wait for terminal state and assert it strongly. Half-success is failure.
 5. **The user is a persona.** Real user bug reports are a unique signal. Convert them to guard tests.
 
@@ -107,7 +107,7 @@ Only after steps 1-4 are complete. Use systematic-debugging skill to:
 - Propose a minimal fix
 - Verify the fix makes the red test pass (green)
 - Verify no other tests regressed
-- Run a stratified salve to verify coverage is still good
+- Run a stratified suite to verify coverage is still good
 
 ### Step 6: Update the ledger
 
@@ -135,7 +135,7 @@ After the fix:
 - `docs/testing/user-found-bugs.md` — Ledger of user-reported bugs
 - `tests/personas/qemu_bug_test.go` — Model red test (QEMU case)
 - `tests/personas/boot_invariant_test.go` — Symptom-based invariant test
-- `tests/personas/stratified.go` — Stratified salve (coverage guarantee)
+- `tests/personas/stratified.go` — Stratified suite (coverage guarantee)
 
 ## Quick checklist (for the AI)
 

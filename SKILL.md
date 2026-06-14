@@ -1,6 +1,6 @@
 ---
 name: user-reported-bug
-description: Enforce RED-TEST-FIRST when the user reports a bug. Auto-loads on phrases like "j'ai un bug", "ça ne marche pas", "I have a bug", "c'est cassé", "ça plante", "ça échoue", "this is broken", "ça foire", "ça bug", "broken", "ça merde", or any user statement that an action the system should do, doesn't do (or does wrong). Forces a strict workflow: (1) reproduce the bug, (2) write a RED test that captures the symptom, (3) tag it USER_FOUND, (4) add it to docs/testing/user-found-bugs.md, (5) ONLY THEN propose a fix. Reference case: the 2026-06-06 QEMU bug which had existed undetected because the test suite didn't include QEMU personas.
+description: "Enforce RED-TEST-FIRST when the user reports a bug. Auto-loads on phrases like \"j'ai un bug\", \"ça ne marche pas\", \"I have a bug\", \"c'est cassé\", \"ça plante\", \"ça échoue\", \"this is broken\", \"ça foire\", \"ça bug\", \"broken\", \"ça merde\", or any user statement that an action the system should do, doesn't do (or does wrong). Forces a strict workflow: (1) reproduce the bug, (2) write a RED test that captures the symptom, (3) tag it USER_FOUND, (4) add it to docs/testing/user-found-bugs.md, (5) ONLY THEN propose a fix. Reference case: the 2026-06-06 QEMU bug which had existed undetected because the test suite didn't include QEMU personas."
 ---
 
 # User-Reported Bug Workflow (RED-TEST-FIRST)
